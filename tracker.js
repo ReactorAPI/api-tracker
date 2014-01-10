@@ -1,3 +1,4 @@
+
 // Make $ available as jQuery
 if ( typeof jQuery !== 'undefined' && typeof $ == 'undefined' ) { $=jQuery; }
 
