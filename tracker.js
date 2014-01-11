@@ -23,7 +23,7 @@ rctr = {
 		reading: false,
 		sightings: [],
 		renders: [],
-		cookies: { user: 'ReactorUserToken'+rctr_tmstmp, visit: 'ReactorVisitToken'+rctr_tmstmp }
+		cookies: { user: 'ReactorUserToken'+rctr_tmstmp, visit: 'ReactorVisitToken'+rctr_tmstmp },
 		cookieOpt: {path: '/', expires: 1000},
 		ready: false,
 		debug: false
