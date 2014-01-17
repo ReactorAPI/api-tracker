@@ -106,10 +106,10 @@ rctr = {
 		},
 		updateVisitTime: function(){
 			// Update last seen of Visit.
-			var visit = $.cookie(rctr.st.cookies.user).split('.');
+			var visit = $.cookie(rctr.st.cookies.visit).split('.');
 			visit[1] = Date.now();
 			visit = visit.join('.');
-			$.cookie(rctr.st.cookies.user, visit, rctr.st.cookieOpt);
+			$.cookie(rctr.st.cookies.visit, visit, rctr.st.cookieOpt);
 		}
 	},
 	comm: {
