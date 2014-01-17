@@ -6,7 +6,7 @@ if ( typeof jQuery !== 'undefined' && typeof $ == 'undefined' ) { $=jQuery; }
 (function(e){if(typeof define==="function"&&define.amd){define(["jquery"],e)}else{e(jQuery)}})(function(e){function n(e){return u.raw?e:encodeURIComponent(e)}function r(e){return u.raw?e:decodeURIComponent(e)}function i(e){return n(u.json?JSON.stringify(e):String(e))}function s(e){if(e.indexOf('"')===0){e=e.slice(1,-1).replace(/\\"/g,'"').replace(/\\\\/g,"\\")}try{e=decodeURIComponent(e.replace(t," "));return u.json?JSON.parse(e):e}catch(n){}}function o(t,n){var r=u.raw?t:s(t);return e.isFunction(n)?n(r):r}var t=/\+/g;var u=e.cookie=function(t,s,a){if(s!==undefined&&!e.isFunction(s)){a=e.extend({},u.defaults,a);if(typeof a.expires==="number"){var f=a.expires,l=a.expires=new Date;l.setTime(+l+f*864e5)}return document.cookie=[n(t),"=",i(s),a.expires?"; expires="+a.expires.toUTCString():"",a.path?"; path="+a.path:"",a.domain?"; domain="+a.domain:"",a.secure?"; secure":""].join("")}var c=t?undefined:{};var h=document.cookie?document.cookie.split("; "):[];for(var p=0,d=h.length;p<d;p++){var v=h[p].split("=");var m=r(v.shift());var g=v.join("=");if(t&&t===m){c=o(g,s);break}if(!t&&(g=o(g))!==undefined){c[m]=g}}return c};u.defaults={};e.removeCookie=function(t,n){if(e.cookie(t)===undefined){return false}e.cookie(t,"",e.extend({},n,{expires:-1}));return!e.cookie(t)}})
 
 // Editar este número para reiniciar cookies.
-var rctr_tmstmp = '100120142313';
+var rctr_tmstmp = '124217012014';
 
 rctr = {
 	log: function(m){
@@ -26,7 +26,8 @@ rctr = {
 		cookies: { user: 'ReactorUserToken'+rctr_tmstmp, visit: 'ReactorVisitToken'+rctr_tmstmp },
 		cookieOpt: {path: '/', expires: 1000},
 		ready: false,
-		debug: false
+		debug: false,
+		pageviewed: false
 	},
 	mntr: {
 		getArticles: function(){
@@ -79,8 +80,8 @@ rctr = {
 			var no_token = true;
 			rctr.log('[rctr] Catching visit, looking for cookie.');
 			// Check for visit token.
-			if ( $.cookie(rctr.st.cookies.user) ) {
-				var visit = $.cookie(rctr.st.cookies.user).split('.');
+			if ( $.cookie(rctr.st.cookies.visit) ) {
+				var visit = $.cookie(rctr.st.cookies.visit).split('.');
 				var this_time = Date.now();
 				var visit_time = parseInt(visit[1]);
 				if ( this_time-visit_time < 600000 ) {		// Si han pasado menos de 10 minutos, continuar visita.
@@ -97,7 +98,7 @@ rctr = {
 				$.get(rctr.st.server+'/visits/create?access_token='+rctr.st.access_token+'&user_token='+rctr.st.user_token, function(d){
 					rctr.st.visit_token = d.visit_token;
 					rctr.log('[rctr] Created new visit '+rctr.st.visit_token);
-					$.cookie(rctr.st.cookies.user, d.visit_token+'.'+Date.now(), rctr.st.cookieOpt);
+					$.cookie(rctr.st.cookies.visit, d.visit_token+'.'+Date.now(), rctr.st.cookieOpt);
 					rctr.st.ready = true;
 					rctr.track();
 				}, 'json');
@@ -161,6 +162,13 @@ rctr = {
 			}
 
 		},
+		pageview: function(){
+			if ( rctr.st.pageviewed == false ) {
+				rctr.st.pageviewed = true;
+				rctr.log('[rctr] Sending pageview.');
+				$.get(rctr.st.server+'/events/pageview?access_token='+rctr.st.access_token+'&user_token='+rctr.st.user_token+'&visit_token='+rctr.st.visit_token);
+			}
+		},
 		ping: function(async){
 			rctr.log('[rctr] Pinging.')
 			if ( rctr.st.ready ) {
@@ -182,10 +190,11 @@ rctr = {
 	dbg: {
 		killCookies: function(){
 			$.removeCookie(rctr.st.cookies.user, rctr.st.cookieOpt);
-			$.removeCookie(rctr.st.cookies.user, rctr.st.cookieOpt);
+			$.removeCookie(rctr.st.cookies.visit, rctr.st.cookieOpt);
 		}
 	},
 	track: function(){
+		rctr.comm.pageview();
 		rctr.comm.ping(true);
 		rctr.mntr.getArticles();
 		rctr.mntr.checkRenders();
