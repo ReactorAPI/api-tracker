@@ -77,7 +77,9 @@ rctr = {
 			}
 		},
 		getVisit: function(){
-			var no_token = true;
+			/* Visit tracking has been disabled client-side */
+
+			/* var no_token = true;
 			rctr.log('[rctr] Catching visit, looking for cookie.');
 			// Check for visit token.
 			if ( $.cookie(rctr.st.cookies.visit) ) {
@@ -102,14 +104,17 @@ rctr = {
 					rctr.st.ready = true;
 					rctr.track();
 				}, 'json');
-			}
+			} */
+
+			rctr.st.ready = true;
+			rctr.track();
 		},
 		updateVisitTime: function(){
 			// Update last seen of Visit.
-			var visit = $.cookie(rctr.st.cookies.visit).split('.');
+			/* var visit = $.cookie(rctr.st.cookies.visit).split('.');
 			visit[1] = Date.now();
 			visit = visit.join('.');
-			$.cookie(rctr.st.cookies.visit, visit, rctr.st.cookieOpt);
+			$.cookie(rctr.st.cookies.visit, visit, rctr.st.cookieOpt); */
 		}
 	},
 	comm: {
@@ -148,7 +153,7 @@ rctr = {
 			query = query.join('&');
 
 			if ( query != '' ) {
-				var query_url = rctr.st.server+'/events/parse?access_token='+rctr.st.access_token+'&user_token='+rctr.st.user_token+'&visit_token='+rctr.st.visit_token+'&'+query;
+				var query_url = rctr.st.server+'/events/parse?access_token='+rctr.st.access_token+'&user_token='+rctr.st.user_token+'&'+query;
 				rctr.log('[rctr] Sending data. Built query: '+query);
 				rctr.log('[rctr] Getting to '+query_url);
 				$(renderElements).each(function(){ $(this).attr('data-reactor-renderposted', 'true'); });
@@ -166,13 +171,13 @@ rctr = {
 			if ( rctr.st.pageviewed == false ) {
 				rctr.st.pageviewed = true;
 				rctr.log('[rctr] Sending pageview.');
-				$.get(rctr.st.server+'/events/pageview?access_token='+rctr.st.access_token+'&user_token='+rctr.st.user_token+'&visit_token='+rctr.st.visit_token);
+				$.get(rctr.st.server+'/events/pageview?access_token='+rctr.st.access_token+'&user_token='+rctr.st.user_token);
 			}
 		},
 		ping: function(async){
 			rctr.log('[rctr] Pinging.')
 			if ( rctr.st.ready ) {
-				$.ajax({url: rctr.st.server+'/events/ping?access_token='+rctr.st.access_token+'&user_token='+rctr.st.user_token+'&visit_token='+rctr.st.visit_token, async: async});
+				$.ajax({url: rctr.st.server+'/events/ping?access_token='+rctr.st.access_token+'&user_token='+rctr.st.user_token, async: async});
 			}
 		}
 	},
