@@ -61,7 +61,7 @@ rctr = {
 	},
 	sess: {
 		getUser: function(){
-			rctr.log('[rctr] Catching user, looking for cookie.');
+			/* rctr.log('[rctr] Catching user, looking for cookie.');
 			// Check for user token.
 			if ( $.cookie(rctr.st.cookies.user) ) {
 				rctr.st.user_token = $.cookie(rctr.st.cookies.user);
@@ -74,7 +74,8 @@ rctr = {
 					rctr.log('[rctr] Created new user '+rctr.st.user_token+'');
 					rctr.sess.getVisit();
 				}, 'json');
-			}
+			} */
+			rctr.st.user_token = 'placeholder';
 		},
 		getVisit: function(){
 			/* Visit tracking has been disabled client-side */
