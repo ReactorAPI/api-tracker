@@ -76,6 +76,7 @@ rctr = {
 				}, 'json');
 			} */
 			rctr.st.user_token = 'placeholder';
+			rctr.sess.getVisit();
 		},
 		getVisit: function(){
 			/* Visit tracking has been disabled client-side */
