@@ -152,6 +152,11 @@ rctr = {
 
 			if ( reading ) { query.push('reading='+reading); }
 
+			if ( rctr.st.pageviewed == false ) {
+				query.push('pageview=true');
+				rctr.st.pageviewed = true;
+			}
+
 			query = query.join('&');
 
 			if ( query != '' ) {
@@ -170,17 +175,17 @@ rctr = {
 
 		},
 		pageview: function(){
-			if ( rctr.st.pageviewed == false ) {
+			/* if ( rctr.st.pageviewed == false ) {
 				rctr.st.pageviewed = true;
 				rctr.log('[rctr] Sending pageview.');
 				$.get(rctr.st.server+'/events/pageview?access_token='+rctr.st.access_token+'&user_token='+rctr.st.user_token);
-			}
+			} */
 		},
 		ping: function(async){
-			rctr.log('[rctr] Pinging.')
+			/* rctr.log('[rctr] Pinging.')
 			if ( rctr.st.ready ) {
 				$.ajax({url: rctr.st.server+'/events/ping?access_token='+rctr.st.access_token+'&user_token='+rctr.st.user_token, async: async});
-			}
+			} */
 		}
 	},
 	ut: {
