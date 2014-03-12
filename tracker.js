@@ -136,7 +136,8 @@ rctr = {
 					renders.push($(this).attr('data-reactor-articleid'));
 				}
 			});
-			if ( renders.length > 0 ) { query.push('renders='+renders.join(',')); }
+			// Renders desactivados
+			// if ( renders.length > 0 ) { query.push('renders='+renders.join(',')); }
 
 			$(rctr.st.sightings).each(function(){
 				if ( !$(this).attr('data-reactor-sightposted') ) {
@@ -144,13 +145,13 @@ rctr = {
 					sightings.push($(this).attr('data-reactor-articleid'));
 				}
 			});
-			if ( sightings.length > 0 ) { query.push('sightings='+sightings.join(',')); }
+			// Sightings desactivados
+			// if ( sightings.length > 0 ) { query.push('sightings='+sightings.join(',')); }
 
 			if ( !$(rctr.st.reading).attr('data-reactor-readposted') ) {
-				reading = $(rctr.st.reading).attr('data-reactor-articleid');
+				var reading = $(rctr.st.reading).attr('data-reactor-articleid');
+				query.push('reading='+reading);
 			}
-
-			if ( reading ) { query.push('reading='+reading); }
 
 			if ( rctr.st.pageviewed == false ) {
 				query.push('pageview=true');
@@ -244,3 +245,4 @@ rctr = {
 $(document).ready(function(){
 	rctr.init();
 });
+
